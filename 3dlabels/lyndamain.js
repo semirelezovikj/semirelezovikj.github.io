@@ -33,10 +33,7 @@ function init() {
 	var reflectionCube = new THREE.CubeTextureLoader().load(fileNames.map(function(fileName) {
 		return path + fileName + format;
 	}));
-	// scene.background = reflectionCube;
-
-
-
+	scene.background = reflectionCube;
 
 	// add other objects to the scene
 	scene.add(lightLeft);
@@ -58,7 +55,8 @@ function init() {
 	var loader = new THREE.OBJLoader();
 	var textureLoader = new THREE.TextureLoader();
 
-	loader.load('./assets/models/head/lee-perry-smith-head-scan.obj', function (object) {
+	// loader.load('./assets/models/head/lee-perry-smith-head-scan.obj', function (object) {
+	loader.load('./assets/models/915540c9c81ddc63a5901d93c937a07e.obj', function (object) {
 		var colorMap = textureLoader.load('./assets/models/head/Face_Color.jpg');
 		var bumpMap = textureLoader.load('./assets/models/head/Face_Disp.jpg');
 		var faceMaterial = getMaterial('standard', 'rgb(255, 255, 255)');
@@ -87,7 +85,7 @@ function init() {
 		scene.add(object);
 
 		helper = new THREE.FaceNormalsHelper( object, 2, 0x00ff00, 1 );
-		scene.add(helper);
+		// scene.add(helper);
 	});
 
 	// renderer
