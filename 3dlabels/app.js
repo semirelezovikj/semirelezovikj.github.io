@@ -15,8 +15,6 @@ function init() {
 
 	var plane = getPlane(20);
 	plane.rotation.x = Math.PI/2;
-
-
 	/*
 	var reflectionCube = new THREE.CubeTextureLoader().load(fileNames.map(function(fileName) {
 		return path + fileName + format;
@@ -50,25 +48,11 @@ function init() {
 		var bumpMap = textureLoader.load('./assets/models/head/Face_Disp.jpg');
 		var faceMaterial = getMaterial('standard', 'rgb(255, 255, 255)');
 
-		object.traverse(function(child) {
-			if (child.name == 'Plane') {
-				child.visible = false;
-			}
-			if (child.name == 'Infinite') {
-				child.material = faceMaterial;
-				faceMaterial.roughness = 0.875;
-				faceMaterial.map = colorMap;
-				faceMaterial.bumpMap = bumpMap;
-				faceMaterial.roughnessMap = bumpMap;
-				faceMaterial.metalness = 0;
-				faceMaterial.bumpScale = 0.175;
-			}
-		} );
 
 		object.position.z = 0;
 		object.position.y = 2;
 		scene.add(object);
-		var helper = new THREE.FaceNormalsHelper( object, 20, 0x008000, 10 );
+		var helper = new THREE.VertexNormalsHelper( object, 20, 0x008000, 10 );
 		scene.add(helper);
 
 	});

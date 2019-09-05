@@ -24,7 +24,7 @@ backLight.position.set(100, 0, -100).normalize();
 scene.add(keyLight);
 scene.add(fillLight);
 scene.add(backLight);
-/*
+
 var mtlLoader = new THREE.MTLLoader();
 mtlLoader.setTexturePath('./assets/models/');
 mtlLoader.setPath('./assets/models/');
@@ -38,21 +38,13 @@ mtlLoader.load('915540c9c81ddc63a5901d93c937a07e.mtl', function (materials) {
     objLoader.load('915540c9c81ddc63a5901d93c937a07e.obj', function (object) {
 
         scene.add(object);
-        object.position.y -= 60;
+        
 
     });
 
 });
-*/
-var objLoader = new THREE.OBJLoader();
-// objLoader.setMaterials(materials);
-objLoader.setPath('./assets/models/');
-objLoader.load('915540c9c81ddc63a5901d93c937a07e.obj', function (object) {
 
-	scene.add(object);
-	object.position.y -= 60;
 
-});
 
 var animate = function () {
 	requestAnimationFrame( animate );
