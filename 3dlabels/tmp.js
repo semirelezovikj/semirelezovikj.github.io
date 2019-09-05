@@ -38,7 +38,7 @@ mtlLoader.load('915540c9c81ddc63a5901d93c937a07e.mtl', function (materials) {
     objLoader.load('915540c9c81ddc63a5901d93c937a07e.obj', function (object) {
 
         scene.add(object);
-        
+
 
     });
 
