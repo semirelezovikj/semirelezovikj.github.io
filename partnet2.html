@@ -15,30 +15,17 @@
 		    top: 0;
 		    left: 0;
 		    z-index: 1;
-		    margin-left: 15px;
-		    margin-top: 15px;
-		    padding: 1em;
-		    width: 200px;
+		    margin: 10px;
+		    padding: 0px;
+		    width: 100px;
 		    color: #fff;
 		    background: rgba(0, 0, 0, 0.8);
 		    border-radius: .5em;
-		    font-size: 12px;
+		    font-size: 16px;
 		    line-height: 1.2;
 		    transition: opacity .5s;
-		    &::before {
-		        content: '1';
-		        position: absolute;
-		        top: -30px;
-		        left: -30px;
-		        width: 30px;
-		        height: 30px;
-		        border: 2px solid #fff;
-		        border-radius: 50%;
-		        font-size: 16px;
-		        line-height: 30px;
-		        text-align: center;
-		        background: rgba(0, 0, 0, 0.8);
-		    }
+			text-align: center;
+
 		}
 
 		#number {
@@ -50,10 +37,9 @@
 <body>
 	<div id="webgl"></div>
 	<div class="annotation">
-    	<p><strong>Cube</strong></p>
-    	<p>In geometry, a cube is a three-dimensional solid object bounded by six square faces, facets or sides, with three meeting at each vertex.</p>
+    	<p><strong>Chair Back</strong></p>
 	</div>
-	<canvas id="number" width="64" height="64">1</canvas>
+	<canvas id="number" width="64" height="64"></canvas>
 	<script src="./lib/Tween.min.js"></script>
 	<script src="./lib/perlin.js"></script>
 	<script src="./lib/dat.gui.min.js"></script>
@@ -61,6 +47,6 @@
 	<script src="./lib/OBJLoader.js"></script>
 	<script src="./lib/MTLLoader.js"></script>
 	<script src="./lib/OrbitControls.js"></script>
-	<script src="./boilerplate.js"></script>
+	<script src="./partnet2.js"></script>
 </body>
 </html>

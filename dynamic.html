@@ -25,20 +25,7 @@
 		    font-size: 12px;
 		    line-height: 1.2;
 		    transition: opacity .5s;
-		    &::before {
-		        content: '1';
-		        position: absolute;
-		        top: -30px;
-		        left: -30px;
-		        width: 30px;
-		        height: 30px;
-		        border: 2px solid #fff;
-		        border-radius: 50%;
-		        font-size: 16px;
-		        line-height: 30px;
-		        text-align: center;
-		        background: rgba(0, 0, 0, 0.8);
-		    }
+
 		}
 
 		#number {
@@ -48,12 +35,12 @@
 	</style>
 </head>
 <body>
-	<div id="webgl"></div>
+
 	<div class="annotation">
     	<p><strong>Cube</strong></p>
-    	<p>In geometry, a cube is a three-dimensional solid object bounded by six square faces, facets or sides, with three meeting at each vertex.</p>
+    	<p>An annotation for a cube</p>
 	</div>
-	<canvas id="number" width="64" height="64">1</canvas>
+	<canvas id="number" width="72" height="72"></canvas>
 	<script src="./lib/Tween.min.js"></script>
 	<script src="./lib/perlin.js"></script>
 	<script src="./lib/dat.gui.min.js"></script>
@@ -61,6 +48,6 @@
 	<script src="./lib/OBJLoader.js"></script>
 	<script src="./lib/MTLLoader.js"></script>
 	<script src="./lib/OrbitControls.js"></script>
-	<script src="./boilerplate.js"></script>
+	<script src="./dynamic.js"></script>
 </body>
 </html>

@@ -48,10 +48,10 @@ let spriteBehindObject;
 const annotation = document.querySelector(".annotation");
 
 var index = 0;
-var files = ['new-0.obj','new-1.obj', 'original-1.obj', 'original-2.obj'];
+var files = ['new-0.obj','new-1.obj', 'new-2.obj','new-3.obj', 'new-4.obj','new-6.obj', 'new-7.obj'];
 
 var objLoader = new THREE.OBJLoader();
-objLoader.setPath('./assets/models/partnet/116/objs/');
+objLoader.setPath('./assets/models/partnet/182/objs/');
 
 function loadNextFile() {
     if (index > files.length - 1) return;
@@ -130,7 +130,7 @@ function updateAnnotationOpacity() {
 
 
 function updateScreenPosition() {
-    const vector = new THREE.Vector3(0.1, 0.7, 0);
+    const vector = new THREE.Vector3(0.3, 0.7, 0);
     const canvas = renderer.domElement;
 
     vector.project(camera);
