@@ -38,6 +38,7 @@
             BABYLON.SceneLoader.Append("./example/1480/parts", "switch-2.obj", scene, function (scene) {
                 // Create a default arc rotate camera and light.
                 scene.createDefaultCameraOrLight(true, true, true);
+                scene.createDefaultCamera();
 
                 // The default camera looks at the back of the asset.
                 // Rotate the camera by 180 degrees to the front of the asset.
