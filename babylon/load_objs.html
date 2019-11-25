@@ -40,15 +40,6 @@
         BABYLON.SceneLoader.ImportMesh("", "https://github.com/semirelezovikj/semirelezovikj.github.io/tree/master/assets/models/partnet/154/objs/", "new-0.obj", scene);
         var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
 
-            return scene;
-        };
-
-
-       
-       
-
-        var scene = delayCreateScene(); //Call the createScene function
-
         // Register a render loop to repeatedly render the scene
         engine.runRenderLoop(function () { 
                 scene.render();
