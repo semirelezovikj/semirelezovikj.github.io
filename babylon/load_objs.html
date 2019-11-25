@@ -31,19 +31,14 @@
         var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
         var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
-        var delayCreateScene = function () {            
-            // Create a scene.
-            var scene = new BABYLON.Scene(engine);
-            // Append glTF model to scene.
-            BABYLON.SceneLoader.Append("./example/1480/parts", "switch-2.obj", scene, function (scene) {
-                // Create a default arc rotate camera and light.
-                scene.createDefaultCameraOrLight(true, true, true);
-                scene.createDefaultCamera();
+        var scene = new BABYLON.Scene(engine);
 
-                // The default camera looks at the back of the asset.
-                // Rotate the camera by 180 degrees to the front of the asset.
-                scene.activeCamera.alpha += Math.PI;
-            });
+        var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
+        camera.setPosition(new BABYLON.Vector3(1, -1, -1));
+        camera.attachControl(canvas, true); 
+
+        BABYLON.SceneLoader.ImportMesh("", "https://github.com/semirelezovikj/semirelezovikj.github.io/tree/master/assets/models/partnet/154/objs/", "new-0.obj", scene);
+        var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
 
             return scene;
         };
