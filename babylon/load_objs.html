@@ -21,6 +21,7 @@
         <script src="https://cdn.babylonjs.com/babylon.js"></script>
         <script src="https://cdn.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
         <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+        <script src="https://cdn.babylonjs.com/gui/babylon.gui.min.js"></script>
     </head>
 
    <body>
@@ -28,29 +29,277 @@
     <canvas id="renderCanvas" touch-action="none"></canvas> //touch-action="none" for best results from PEP
 
     <script>
+        // to test locally, you need to start up a local server
+        // python -m http.server
+        // you can either do that in the babylon directory, or upper in the tree in semirelezovikj.github.io
+
         var canvas = document.getElementById("renderCanvas"); // Get the canvas element 
         var engine = new BABYLON.Engine(canvas, true); // Generate the BABYLON 3D engine
 
-        var scene = new BABYLON.Scene(engine);
+        // TODO: node.js functionality to get obj files
+        var meshNames = ['switch-2', 'switch-3', 'switch-4', 'hose-5', 'tube-7', 'tube-9', 'surface_base-11', 'surface_base-12', 'vertical_support-13', 'vertical_support-14', 'vertical_support-15', 'vertical_support-16', 'vertical_support-17', 'horizontal_support-18', 'horizontal_support-19', 'horizontal_support-20', 'horizontal_support-21', 'horizontal_support-22'];
 
-        var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
-        camera.setPosition(new BABYLON.Vector3(1, -1, -1));
-        camera.attachControl(canvas, true); 
+        /*
+        function createScene2() {
 
-        BABYLON.SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/semirelezovikj/semirelezovikj.github.io/master/assets/models/partnet/154/objs/", "new-0.obj", scene);
-        var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);
+            // This creates a basic Babylon Scene object (non-mesh)
+            var scene = new BABYLON.Scene(engine);
+            // This creates and positions a free camera (non-mesh)
+            // This creates and positions a free camera (non-mesh)
+            var camera = new BABYLON.ArcRotateCamera("ArcRotateCamera", 4.5, 1, 500, new BABYLON.Vector3(0, 0, 0), scene);
+            // This targets the camera to scene origin
+            camera.setTarget(BABYLON.Vector3.Zero());
+            camera.speed = 5000;
+            // This attaches the camera to the canvas
+               camera.attachControl(canvas, true); //give user control of the camera
+            camera.upperBetaLimit = Math.PI / 2 * 0.99; //the camera cannot get underneath the scene
+            // check camera doc at http://doc.babylonjs.com/tutorials/cameras
+
+
+            var light = new BABYLON.HemisphericLight("light1", new BABYLON.Vector3(0, 1, 0), scene);
+            light.intensity = 0.7;
+            // check light doc at http://doc.babylonjs.com/tutorials/lights
+
+
+            var sphereM = BABYLON.Mesh.CreateBox("sphereM", 90, scene); // 360 = size
+            var sphereMHeight = sphereM.getBoundingInfo().boundingBox.extendSize.y // get size of mesh
+            sphereM.position.y = sphereMHeight; // overwise mesh center position is 0,0,0
+            // check mesh creation and properties at http://doc.babylonjs.com/tutorials/mesh_createxxx_methods_with_options_parameter
+
+            var sphere1 = BABYLON.Mesh.CreateBox("sphere1", 16, scene);
+            var sphere2 = BABYLON.Mesh.CreateBox("sphere2", 16, scene);
+            var sphere3 = BABYLON.Mesh.CreateBox("sphere3", 16, scene);
+            var sphere4 = BABYLON.Mesh.CreateBox("sphere4", 16, scene);
+
+            var HeightSphere1 = sphere1.getBoundingInfo().boundingBox.extendSize.y;
+            var materialSphere1 = new BABYLON.StandardMaterial("texture2", scene);
+            materialSphere1.diffuseColor = new BABYLON.Color3(1, 0, 0); //Red
+            sphere1.material = materialSphere1
+
+            sphere1.position = new BABYLON.Vector3(HeightSphere1 + 1, HeightSphere1, HeightSphere1 + 1); // Using a vector
+            sphere2.position = new BABYLON.Vector3(HeightSphere1 + 1, HeightSphere1, -HeightSphere1 - 1); // Using a vector
+            sphere3.position = new BABYLON.Vector3(-HeightSphere1 - 1, HeightSphere1, HeightSphere1 + 1); // Using a vector
+            sphere4.position = new BABYLON.Vector3(-HeightSphere1 - 1, HeightSphere1, -HeightSphere1 - 1); // Using a vector
+
+            sphereM.actionManager = new BABYLON.ActionManager(scene); // allow animation to that scene
+            sphereM.actionManager.registerAction(new BABYLON.SetValueAction(BABYLON.ActionManager.OnPickTrigger, sphereM, "position.y", sphereMHeight * 5))
+                //register action allow action to that particuar mesh
+                // other type of action, trigger, ... http://doc.babylonjs.com/tutorials/how_to_use_actions
+                .then(new BABYLON.SetValueAction(BABYLON.ActionManager.OnPickTrigger, sphereM, "position.y", sphereMHeight));
+            //next bound action
+
+                // To import a mesh fom 3DsMax: use babylon exporter https://github.com/BabylonJS/Babylon.js/tree/master/Exporters/3ds%20Max
+
+            // BABYLON.SceneLoader.ImportMesh("", "Content/", "BuildingCoverStructure.babylon", scene, function (newMeshes) {
+                // first parameter name of meshes wanted same as on 3DsMax
+                // 2nd parameter is the path of the .babylon file
+                // 3rd parameter is the name of the .babylon file
+                        // console.log(newMeshes[0].name + "newMeshes[0]"); // Gives you the name of this particular mesh
+                        // console.log(newMeshes[1].name + "newMeshes[1]");
+
+
+            //            });
+
+
+
+            var panel = function(scene, bd, mesh) {
+                var canvas = new BABYLON.WorldSpaceCanvas2D(scene, new BABYLON.Size(30, 15), { // create a canvas2d panel
+                    // WorldSpaceCanvas2D allow you 3Dposition
+                    id: "Happy Feast",
+                    unitScaleFactor: 10,
+                    trackNodeOffset: new BABYLON.Vector3(mesh.position.x * 2, mesh.position.y * 4, 0), // His 3D position
+                    trackNodeBillboard: true, // Keep the panel facing the camera
+                    trackNode: mesh, // Move according to this parent
+                    backgroundRoundRadius: 5,
+                    backgroundFill: "#000000AA" // Octodecimal alpha + hex  http://stackoverflow.com/questions/23201134/transparent-argb-hex-value
+
+                });
+                var paddY = 20;
+                var paddX = 12;
+                var fontSize = 16;
+                var fontName = fontSize + "pt" + " Lucida Console ";
+                var datasKey = Object.keys(bd);
+                datasKey.reverse(); // bottom left corner is 0,0 so I reverse to have the datas in the right order
+
+
+                for (var i = 0; i < datasKey.length; i++) {
+                    var datasValue = bd[datasKey[i]];
+                    var buttonRect = new BABYLON.Rectangle2D({  // object key
+                        parent: canvas,
+                        id: "button",
+                        padding: 10,
+                        y: paddY += 22,
+                        width: 50,
+                        height: 10,
+                        children: [new BABYLON.Text2D(datasKey[i], {
+                            fontName: fontName,
+                            marginAlignment: "h: left, v: top",
+                            fontSignedDistanceField: true // To have better detail of the text
+                        })]
+                    });
+                    var button2Rect = new BABYLON.Rectangle2D({ // obect value
+                        parent: buttonRect, // to have same properties
+                        id: "button2",
+                        x: 110, //to move it to the right from his key
+                        children: [new BABYLON.Text2D(datasValue, {
+                            fontName: fontName,
+                            fontSignedDistanceField: true
+                        })]
+                    });
+
+
+                }
+                return {
+                    canvas: canvas,
+                    node: canvas.worldSpaceCanvasNode
+                };
+
+            };
+            var connectPanelToMesh = function(mesh) { // Create line
+                var Lines = BABYLON.Mesh.CreateLines("LinesRed", [
+                    new BABYLON.Vector3(mesh.position.x, mesh.position.y, mesh.position.z / 2), //first point on the mesh
+                    new BABYLON.Vector3(mesh.position.x * 2, mesh.position.y * 4, 0)    // Same as the panel trackNodeOffset position to reach the panel
+                ], scene);
+                Lines.parent = mesh;  // To follow his actions
+            };
+
+            var datas = {
+                "Name": "La Machine",
+                "Heat": "1300°C",
+                "Height": "40m"
+            };
+            panel(scene, datas, sphereM);
+            connectPanelToMesh(sphereM);
+            panel(scene, datas, sphere1);
+            connectPanelToMesh(sphere1);
+            panel(scene, datas, sphere2);
+            connectPanelToMesh(sphere2);
+            panel(scene, datas, sphere3);
+            connectPanelToMesh(sphere3);
+            panel(scene, datas, sphere4);
+            connectPanelToMesh(sphere4);
+
+        // Create a dat.gui control above
+          var gui = new dat.GUI();
+
+
+
+            // Create a ground
+            var ground = BABYLON.Mesh.CreateGround("ground1", 200, 200, 2, scene);
+
+            return scene;
+
+        };
+        */
+        function createScene() {
+            var scene = new BABYLON.Scene(engine);
+
+            // texture
+            hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData("textures/environment.dds", scene);
+            scene.environmentTexture = hdrTexture;
+            scene.createDefaultSkybox(hdrTexture, true, 200, 0.7);
+            
+            var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 0, BABYLON.Vector3.Zero(), scene);
+            camera.setPosition(new BABYLON.Vector3(1, 2, 2));
+            camera.attachControl(canvas, true); 
+            camera.wheelPrecision = 50;
+
+            meshNames.forEach(function(mesh) {
+                BABYLON.SceneLoader.ImportMesh("", "./example/1480/parts/", mesh + ".obj", scene, function(imported) {
+                    var impMesh = imported[0];                    
+                    impMesh.id = mesh;
+                    impMesh.name = mesh;
+                })
+            });
+            
+            var light = new BABYLON.HemisphericLight("hemi", new BABYLON.Vector3(0, 1, 0), scene);            
+            return scene;
+
+        }
+        
+
+        var scene = createScene();        
+
+        
+
+
+
 
         // Register a render loop to repeatedly render the scene
         engine.runRenderLoop(function () { 
                 scene.render();
         });
 
+        scene.debugLayer.show();
+
         // Watch for browser/canvas resize events
         window.addEventListener("resize", function () { 
                 engine.resize();
         });
-    </script>
 
+        
+        scene.executeWhenReady(function() {
+            var meshes = scene.meshes;            
+
+            meshes.forEach(function(mesh) {
+                createLabelFor(mesh, scene);
+                
+                
+            });    
+        });
+        
+        
+
+    </script>
+    <script>
+        // all the functions here will eventually go to their own file
+        function createLabelFor(mesh, scene) {
+            // create a Center of Transformation
+            var CoT = new BABYLON.TransformNode(mesh.name + '-label'); 
+
+            var advancedTexture = BABYLON.GUI.AdvancedDynamicTexture.CreateFullscreenUI("ui1");
+
+            createLabel(mesh, advancedTexture);
+            /*
+            var linePoints = [];
+            var center = mesh.getBoundingInfo().boundingBox.centerWorld;
+            linePoints.push(center);
+            linePoints.push(center.add(new BABYLON.Vector3(-1, 0, 0)));
+            //Create lines 
+            var lines = BABYLON.MeshBuilder.CreateLines("lines", {points: linePoints}, scene); 
+            lines.parent = CoT;
+            */
+        }
+
+
+
+        var createLabel = function(mesh, advancedTexture) {
+            var label = new BABYLON.GUI.Rectangle("label for " + mesh.name);
+            label.background = "black"
+            label.height = "50px";
+            label.alpha = 0.5;
+            label.width = "160px";
+            label.cornerRadius = 20;
+            label.thickness = 1;
+            label.linkOffsetX = 200;
+            advancedTexture.addControl(label); 
+            label.linkWithMesh(mesh);
+
+            var text1 = new BABYLON.GUI.TextBlock();
+            text1.text = mesh.name;
+            text1.color = "white";
+            text1.fontSize = "20px";
+            label.addControl(text1);
+
+            var line = new BABYLON.GUI.Line();
+            line.alpha = 0.5;
+            line.lineWidth = 2;
+            // line.dash = [5, 10];
+            advancedTexture.addControl(line); 
+            line.linkWithMesh(mesh);
+            line.connectedControl = label;  
+        }  
+    </script>
    </body>
 
 </html>
